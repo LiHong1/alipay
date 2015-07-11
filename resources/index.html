@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/sea-modules/seajs/2.2.0/sea.js"></script>
+</head>
+<script>
+
+    // Set configuration
+    seajs.config({
+        //base: "js/sea-modules/",
+        alias: {
+            '$': 'js/sea-modules/jquery/1.10.1/jquery.js',
+            "jquery": "js/sea-modules/jquery/1.10.1/jquery.js"
+        }
+    });
+    // seajs.use("examples/hello/1.0.0/main");
+</script>
+<style>
+    @font-face {
+        font-family: 'alipayhome';
+        src: url('font/font_1431504418_7238076.eot'); /* IE9*/
+        src: url('font/font_1431504418_7238076.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('font/font_1431504418_7238076.woff') format('woff'), /* chrome、firefox */
+        url('font/font_1431504418_7238076.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+        url('font/font_1431504418_7238076.svg#iconfont') format('svg'); /* iOS 4.1- */
+    }
+</style>
+<style>
+    body { font:12px/1.5 "Microsoft YaHei",tahoma,arial,Hiragino Sans GB,\5b8b\4f53;position: relative;}
+    html,body,.am-page,.am-body,.am-bg{height:100%; width:100%;}
+    html,body,.am-page{ overflow:hidden; }
+    body,dl,dt,dd,ul,li,ol,area,form,input,select,img,a{
+        margin: 0px;padding: 0px;
+        font-size: 12px;
+    }
+    .iconfont {font-family: "alipayhome";-webkit-font-smoothing: antialiased;font-style: normal; display:block;}
+    ul,li{list-style: outside none none}
+    .head{
+        width: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 999;
+    }
+    .topNay{
+        background: #1e1b29 none repeat scroll 0 0;
+    }
+    .am-header-inner{position: relative;z-index: 2}
+    .topNay{line-height: 28px;height: 28px;}
+    .topNay li{float: left;margin:0 15px;text-align: center;}
+    .topNay li.first{margin-left: 0px;!important;}
+    .topNay a{text-decoration: none}
+    .topNay a,.topNay span{color: #fff;font-size: 12px}
+    .topNay a:hover,.topNay li.first a,.mainMenu li .first,.mainMenu li:hover{color:#00bbee;cursor:pointer;}
+    .topNay .rlink li{margin:0 5px}
+    .laymid{width: 1200px;margin: auto;}
+    .topNay .laymid .fr{float: right}
+    .mainNav,.mainMenu{height: 80px;}
+    .mainNav {background-color:rgb(255,255,255);opacity:0.9;filter:alpha(opacity=90) border-bottom: 1px solid #eeeeee;}
+    .mainMenu{margin-left: 360px;}
+    .mainMenu li{float: left;line-height: 80px;position: relative}
+    .mainMenu .channel-a{padding: 0 30px;font-size: 16px}
+    .mainMenu .buttons{float: right;margin-top: 25px;}
+    .mainMenu .buttons dd{float: left}
+    .mainMenu .am-button-innerNav{text-decoration: none;color: #00bbee;margin-left: 15px;}
+
+    .am-body{position: relative;left: 0%}
+    .am-bg{background-repeat:no-repeat;background-position: center center;background-size: cover;}
+    .am-bg{left: 0;  position: absolute;  top: 0;  z-index: 9;}
+    .am-bg{width: 100%;height: 100%}
+    .am-page{position: relative}
+    .hasleftline::before{content: "";width: 1px;height: 16px;background: #444 none repeat scroll 0 0;display: block;left: 0px;top: 32px;position: absolute}
+    .hasleftline{margin-left: 20px;padding-left: 20px;}
+    .alipay-logo{
+        background-image:url("https://i.alipayobjects.com/i/localhost/png/201406/2m8C9z7xQ5_src.png");
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        float: left;
+        height: 40px;
+        position: relative;
+        top: 20px;
+        width: 115px}
+    .buttons .am-button-innerNav{display: block;height: 28px;line-height: 28px;text-align: center}
+    .buttons .button-login{width: 84px;font-size: 14px;height: 28px;border-radius: 2px;background: #00bbee none repeat scroll 0 0;
+                 color: #fff}
+    .buttons .button-login:hover{background: #00a3d2}
+
+
+    /*  第一页  */
+    .play{
+        display: block;
+       /* visibility: hidden;*/
+        height: 36px;
+        width: 36px;
+        line-height: 36px;
+        font-size: 34px;
+        text-decoration: none;
+        color: #FFF;
+        bottom: 130px;
+        right: -40px;
+        position: absolute;
+        z-index: 99;}
+    .poster{
+        position: absolute;
+        z-index: 9;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+    .poster{
+        transition: opacity 2s ease 0s;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+    .video-mask,.poster{
+        position: absolute;
+        z-index: 9;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        filter:alpha(opacity=100)
+    }
+    .video-mask{  background: #000 none repeat scroll 0 0;  filter:alpha(opacity=40);opacity: 0.35;  z-index: 99;  }
+    .stat-playing .video-mask,.stat-end .video-mask,.stat-novideo .video-mask,.stat-pause .video-mask,.stat-playing .video-player{  visibility: visible;  }
+    .stat-end .video-player{  visibility: hidden;  }
+    .stat-playing .poster{  opacity: 0; }
+    .video-player{visibility: hidden;min-width: 100%;min-height: 100%}
+    .start-end{visibility: visible}
+    .main-content{width: 1200px;height:100%;margin:0 auto;position: relative;z-index: 100}
+    .video-area .laymid{width: 420px;height: 200px;position: absolute;left: 50%;top: 50%;margin-left: -195px;margin-top: -40px}
+    .main-content .logo{
+        background-image: url(https://i.alipayobjects.com/i/ecmng/png/201501/4JdljnmTmX.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: -10px 0;
+        width: 420px;
+        height: 88px;
+        margin-bottom: 10px;
+    }
+    .main-content .click-me{width: 100%;height: auto}
+    .main-content .click-me a{color: white;font-size: 14px;text-decoration: none;height: 30px;width: 186px;display: block;float: left;line-height: 30px;text-align: center}
+    .click-me .button-register{border: 1px solid white;border-radius: 3px;}
+    .click-me .button-login{border:1px solid #00bbee;border-radius: 3px;background: #00bbee;color: white;margin-right: 20px;}
+    .clearfix::after {
+        clear: both;
+        content: "";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+</style>
+<body>
+  <div class="head">
+        <div class="am-header-inner">
+            <div class="topNay">
+                <div class="laymid">
+                    <ul class="f1">
+                        <li class="first"><a>个人</a></li>
+                        <li class=""><a>企业</a></li>
+                    </ul>
+                    <ul class="fr rlink">
+                        <li ><a>支付宝钱包</a></li>
+                        <li><span>|</span></li>
+                        <li ><a>客户服务</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mainNav">
+                <div class="laymid" style="height: 80px;">
+                    <div class="alipay-logo"></div>
+                    <div id="J_mainMenu" class="mainMenu">
+                        <ul>
+                            <li class="first"><a class="channel-a">首页</a></li>
+                            <li><a class="channel-a">财富中心</a></li>
+                            <li><a class="channel-a">生活服务</a></li>
+                            <li><a class="channel-a">安全保障</a></li>
+                            <li class="hasleftline "><a class="channel-a">商家服务</a></li>
+
+                        </ul>
+                        <dl id="J_buttons" class="buttons fn-hide">
+                            <dd>
+                                <a class="am-button-innerNav button-login"  smartracker="on" href="#">登录</a>
+                            </dd>
+                            <dd>
+                                <a class="am-button-innerNav button-register" target="_blank" href="" smartracker="on" href="#">注册</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="J_onepage" class="am-body">
+            <div id="J_videoContainer" class="am-page video-area">
+                <div class="am-bg am-videoPlayer">
+                    <video style="position: absolute; top: -67px; left: 0px;" id="J_video_player" class="video-player">
+                        <source src="https://t.alipayobjects.com/images/T1T78eXapfXXXXXXXX.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-mask"></div>
+                    <div id="J_poster" class="poster" style="background-image:url(https://t.alipayobjects.com/images/T1k5ReXXlkXXXXXXXX.jpg)"></div>
+                </div>
+                <div class="main-content">
+                    <div class="laymid">
+                        <div class="logo"></div>
+                        <div class="click-me clearfix">
+                            <a smartracker="on" seed="clickMe-amButton" href="javascript:" class="am-button button-login">登 录</a>
+                            <a smartracker="on" seed="clickMe-amButtonT1" href="https://memberprod.alipay.com/account/reg/index.htm" target="_blank" class="am-button button-register">立即注册</a>
+                        </div>
+                        <a class="iconfont play" id="J_play" href="javascript:"  smartracker="on" seed="laymid-J_play" >&#xe615;</a>
+                        <div class="video-loading"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-page am-one" >
+                <div class="am-bg" style="background-image: url('https://t.alipayobjects.com/images/T1yXVfXfddXXXXXXXX.jpg');"></div>
+
+            </div>
+            <div class="am-page am-two am-bg" >
+                <div class="am-bg" style="background-image: url('https://i.alipayobjects.com/i/ecmng/jpg/201501/4JdlRITPmX.jpg');"></div>
+            </div>
+            <div class="am-page am-three am-bg" >
+                <div class="am-bg" style="background-image: url('https://t.alipayobjects.com/images/T1y3dfXfFlXXXXXXXX.jpg');"></div>
+            </div>
+            <div class="am-page am-four am-bg" >
+                <div class="am-bg" style="background-image: url('https://i.alipayobjects.com/i/ecmng/jpg/201501/4JdkvtFg7B.jpg');"></div>
+            </div>
+            <div class="am-page am-five am-bg">
+                <div class="am-bg" style="background-image: url('https://i.alipayobjects.com/i/ecmng/jpg/201501/4JdidBF3Kn.jpg');"></div>
+            </div>
+            <div class="am-page am-six am-bg"></div>
+    </div>
+    <div class="onepage-pagination">
+    </div>
+<script>
+
+
+ /*   var arr=[12,23,5,3,25,98,76,54,56,76,98];
+    var ob={};
+    var newArr=[];
+    function reset(arr){
+
+        for(var i=0;i<arr.length;i++){
+            if(ob[arr[i]]!=arr[i]){
+                newArr.push(arr[i]);
+                ob[arr[i]]=arr[i];
+            }
+            else{
+                ob[arr[i]]=arr[i];
+            }
+        }
+        alert(ob);
+        return newArr;
+    }
+    console.dir(newArr);*/
+    //console.log(reset(arr));
+    var $ = function(id) {
+        return document.getElementById(id);
+    };
+    seajs.use("file:///L:/alipay/resources/js/static/slide.js", function(slide) {
+        slide.init($("J_onepage"));
+
+    });
+    /* $(function(){
+         var video = $("#J_video_player");
+         var J_poster = $("#J_play");
+         var J_videoContainer = $("#J_videoContainer");
+         //videoPlayer(J_videoContainer,video[0]);
+         J_poster.click(function(){
+            $(this).hide();
+            videoPlayer(J_videoContainer,video[0]);
+         });
+
+
+     });
+     var videoPlayer = function(J_videoContainer,video){
+         J_videoContainer.addClass("stat-playing")
+         video.play();
+         var time = setInterval(function(){
+             J_videoContainer.addClass("stat-end");
+             J_videoContainer.removeClass("stat-playing");
+             J_poster.show();
+             window.clearInterval(time);
+         },video.duration*1000);
+     }*/
+</script>
+</body>
+</html>

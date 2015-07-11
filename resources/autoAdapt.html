@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<style>
+
+    body,html, h1{
+        margin: 0px;
+        padding: 0px;
+    }
+    .header{background-color: red;height: 100px;width: 100%;}
+    .sidebar{height: 100px;background-color: cornflowerblue;float: left;width: 600px}
+    .content{
+        height: 100px;
+        background-color: #00bbee;
+        margin-left: 600px;
+        width: 100%;
+     }
+    .belowW600 .content{margin-left:0px}
+    .belowW600 .sidebar{float: none;width: 100%}
+    /*a {
+        position: relative;
+        display: inline-block;
+        width: 300px;
+        height: 100px;
+        background: green;
+        color: #fff;
+        font-size: 12px;
+        text-decoration: none;
+        text-indent: -999px;  隐去原来的文本内容
+        border-bottom: 5px solid red;
+        vertical-align: bottom;
+        -webkit-transition: font-size 2s;
+        -moz-transition: font-size 2s;
+        -ms-transition: font-size 2s;
+        -o-transition: font-size 2s;
+        transition: font-size 2s;
+    }
+    a:before {
+        content: attr(title);
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        text-indent: 0;
+    }
+    a:hover {
+        color: #666;
+        font-size: 50px;
+        background: skyblue;
+    }*/
+    a {
+        /*position: absolute; left: 50%; top: 50%;*/
+        transform: translate3d(50%, 50%, 0);
+        width: 300px;
+        height: 100px;
+        background: green;
+        color: #fff;
+        font-size: 12px;
+        text-decoration: none;
+        border-bottom: 5px solid red;
+        transition: font-size 2s;
+        display:table-cell;      /*按照单元格的样式显示元素*/
+        vertical-align:bottom;   /*底对齐*/
+    }
+    a:hover {
+        color: #666;
+        font-size: 50px;
+        background: skyblue;
+    }
+    .mod-spm{
+        width: 100px;
+        height: 100px;
+        background: red;
+        margin-bottom: 10px;
+        text-outline: 2px 2px #000;
+    }
+
+   /* @media screen and (max-width: 600px) {
+        .content{
+            margin-left: 0px;
+        }
+        .sidebar{float: none;width: 100%;}
+    }*/
+</style>
+<body class="">
+<!--<div class='header'>
+    <h1>header</h1>
+</div>
+<div>
+    <div class="sidebar">
+        <h1>sidebar</h1>
+    </div>
+    <div class="content">
+        <h1>content</h1>
+    </div>
+</div>-->
+<a href="#" title="订阅博客">订阅博客</a>
+<div class='mod-spm'data-spmid='123'>
+de
+</div>
+<div class='mod-spm' data-spmid='456'>
+
+</div>
+<div class='mod-spm' data-spmid='789'>
+
+</div>
+
+<script type="text/javascript">
+    var spms = document.getElementsByClassName("mod-spm");
+    var time;
+    for(var i=0;i<spms.length;i++){
+        spms[i].onmouseover = function(){
+            time = new Date();
+        };
+        spms[i].onmouseout = function(){
+            var totalTime;
+            if(!totalTime){
+                totalTime = new Date - time;
+            }else{
+                totalTime += new Date - time;
+            }
+           this.innerHTML= totalTime;
+        }
+
+    }
+
+    /*window.onload=function(){
+        changeDivHeight();
+    }*/
+    //当浏览器窗口大小改变时，设置显示内容的高度
+        var firstFire = null;
+        window.onresize = function () {
+            if(firstFire === null) {
+                firstFire = setTimeout(function() {
+                    if(firstFire !==null){
+                        var height = document.documentElement.clientHeight;//获取页面可见高度
+                        var width = document.documentElement.clientWidth;
+                        var body = document.getElementsByTagName("body")[0];
+                        var cla =body.getAttribute("class");
+                        if(parseInt(width)<600){
+                            if(!cla.contains("belowW600")){
+                                body.setAttribute("class",cla+" belowW600");
+                            }
+                        }else{
+                            if(cla.contains("belowW600")){
+                                body.setAttribute("class",cla.replace("belowW600",""));
+                            }
+                        }
+                        firstFire = null;
+                    }
+
+                }, 500);
+            }
+        }
+
+
+
+</script>
+</body>
+</html>

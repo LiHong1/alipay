@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p>awd</p><span>asd</span>
+</body>
+<script type="text/javascript">
+    /*document.onclick = function(event){
+        //ie 9 以下必须要使用window.event 获取event  而其他浏览器能直接获取
+        var e = event || window.event;
+        var element = e["srcElement"]||e["target"];;//ie chrom 使用的是srcElement，而firefox使用target
+        alert(element.tagName.toLowerCase());
+    }*/
+    var f = function() {return true;};
+    var g = function() {return false;};
+    (function() {
+       /* alert(g());
+        alert(f());*/
+        alert([]==![]);// ![]为false
+      /*  if (g() && [] == ![]) {*/
+        if (true) {
+           f= function f() {return false;};
+            function g() {return true;}//在 Firefox中因为有if语句  所以不会先初始化定义g函数
+        }
+
+    })();
+    alert(f()); // true or false ?
+</script>
+</html>

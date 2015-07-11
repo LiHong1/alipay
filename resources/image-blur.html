@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>web前端学习实例页面之图片的局部高斯模糊效果-JS偏移计算实现</title>
+</head>
+<script src="js/other/drag.js"></script>
+<style>
+    .box {
+        width: 256px; height: 191px;
+        background: url(images/jingtian.png) no-repeat;
+        position: relative;
+        overflow: hidden;
+    }
+    .drag {
+        width: 100px; height: 100px;
+        background: inherit;
+        -webkit-filter: blur(5px);  -moz-filter: blur(5px); filter: blur(5px);
+        cursor: -webkit-grab; cursor: -moz-grab; cursor: grab;
+        position: absolute;
+        overflow: hidden;
+    }
+    .drag:active {
+        cursor: -webkit-grabbing; cursor: -moz-grabbing; cursor: grabbing;
+    }
+
+
+    .coke_box {
+        height: 400px;
+        overflow: auto;
+        width: 510px;
+    }
+    .coke_box_in {
+        background: rgba(0, 0, 0, 0) url("images/coke_bg.jpg") repeat-x fixed 300px 100px;
+        width: 660px;
+    }
+
+    .coke_box_in img {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        border-color: white;
+        border-image: none;
+        border-style: solid;
+        border-width: 0 300px;
+        margin-top: 10px;
+    }
+
+    .list{
+        width: 160px;
+        height: 140px;
+        position: relative;
+        overflow: hidden;
+        cursor:pointer;
+    }
+    .layer {
+        position: absolute; left: 0; top: 0;
+        width: 100%; height: 100%;
+    }
+    .cover {
+        position: absolute; left: 0; right: 0; bottom: 0;
+        width: 100%; height: 30px; line-height: 30px;
+        overflow: hidden;
+    }
+    .blur {
+        position: absolute;
+        width: 100%; bottom: 0; left: 0;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        /* css3 */
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        filter: blur(5px); /* FireFox 35+ support */
+        /* IE6~IE9 */
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false);
+        *left: -5px; left: -5px\0;
+    }
+    :root .blur {
+        left: -5px \0; /* Just IE9 */
+    }
+    .mask {
+        position: absolute; left: 0; bottom: 0; width: 100%;
+        /* IE9+ */
+        background-color: rgba(0,0,0,.2);
+        /* IE6-IE8 */
+        filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#34000000,endColorStr=#34000000);
+        color: #fff;
+        font-size: 14px;
+        text-indent: 10px;
+    }
+    :root .mask {
+        filter: none;
+    }
+
+    /* affect */
+    .list img, .list svg {
+        -webkit-transition: all .25s; transition: all .25s;
+        vertical-align: bottom;
+    }
+    .list:hover .layer,
+    .list:hover .blur {
+        -webkit-transform: scale(1.05) translateZ(0);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05) translateZ(0);
+        /* IE6-IE8 */
+        zoom: 1.05;
+    }
+    :root .list:hover .layer,
+    :root .list:hover .blur {
+        zoom: 1;
+    }
+</style>
+
+<body class="">
+<div class="box">
+    <div id="drag" class="drag"></div>
+</div>
+
+<div class="coke_box">
+    <div class="coke_box_in">
+        <img src="images/coke_can.png">
+    </div>
+</div>
+
+<div class="list">
+    <img src="images/mingixng204.jpg" class="layer">
+    <div class="cover">
+        <img src="images/mingixng204.jpg" class="blur">
+        <div class="mask">旅游</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var eleDrag = document.getElementById("drag");
+    if (eleDrag) {
+        startDrag(eleDrag, eleDrag, function(x, y) {
+            eleDrag.style.backgroundPosition = (-1 * x) + "px " + (-1 * y) + "px";
+        });
+    }
+</script>
+</body>
+</html>
